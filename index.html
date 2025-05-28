@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQNet - Emergency Response System</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-logo">
+                <a href="#home"><span class="logo-resq">ResQ</span>Net</a>
+            </div>
+            <div class="emergency-phone">
+                <i class="fas fa-phone-alt"></i>
+                <span>Emergency:</span>
+                <a href="tel:112" class="emergency-number" onclick="return confirmEmergencyCall('112')">112</a>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#features">Features</a>
+                <a href="#ai-assistant" class="ai-assistant-btn">
+                    <i class="fas fa-robot"></i> AI Assistant
+                </a>
+                <a href="#wearables" class="wearables-btn">
+                    <i class="fas fa-watch"></i> Wearables
+                </a>
+            </div>
+            <div class="auth-buttons">
+                <a href="#report-emergency" class="report-emergency-btn">
+                    <i class="fas fa-exclamation-triangle"></i> Report Emergency
+                </a>
+                <div class="user-menu" id="user-menu">
+                    <button class="login-btn" id="login-btn">Login</button>
+                    <button class="register-btn" id="register-btn">Register</button>
+                </div>
+            </div>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <h3>ResQNet</h3>
+            <button class="close-menu-btn" id="close-menu-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#ai-assistant" class="ai-assistant-mobile-btn">
+                <i class="fas fa-robot"></i> AI Assistant
+            </a>
+            <a href="#wearables" class="wearables-mobile-btn">
+                <i class="fas fa-watch"></i> Wearable Devices
+            </a>
+            <a href="#report-emergency" class="report-emergency-mobile-btn">
+                <i class="fas fa-exclamation-triangle"></i> Report Emergency
+            </a>
+            <a href="#login" class="login-mobile-btn">
+                <i class="fas fa-user"></i> Login
+            </a>
+            <a href="#register" class="register-mobile-btn">
+                <i class="fas fa-user-plus"></i> Register
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Need <span class="highlight">Emergency</span> Help?</h1>
+                    <p>Don't panic, we can help! ResQNet connects you with emergency services fast.</p>
+                    <a href="#report-emergency" class="cta-button">Report Emergency Now</a>
+                </div>
+                <div class="emergency-card">
+                    <h3>24/7 ASSISTANCE HOTLINE</h3>
+                    <div class="emergency-number-display">
+                        <i class="fas fa-phone-alt"></i>
+                        <a href="tel:112" class="main-emergency-number" onclick="return confirmEmergencyCall('112')">112</a>
+                    </div>
+                    <div class="divider">INDIA EMERGENCY</div>
+                    <div class="emergency-numbers-grid">
+                        <div class="emergency-number-item">
+                            <span>Police</span>
+                            <a href="tel:100" onclick="return confirmEmergencyCall('100')">100</a>
+                        </div>
+                        <div class="emergency-number-item">
+                            <span>Ambulance</span>
+                            <a href="tel:108" onclick="return confirmEmergencyCall('108')">108</a>
+                        </div>
+                    </div>
+                    <div class="emergency-alert">
+                        For life-threatening emergencies, call 112 directly. Use ResQNet for all other emergency assistance.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Steps Section -->
+        <section class="emergency-steps" id="steps">
+            <div class="container">
+                <h2>Emergency Response <span class="highlight">Steps</span></h2>
+                <div class="steps-grid">
+                    <div class="step-card" data-step="1">
+                        <div class="step-number">1</div>
+                        <h3>Don't panic, we can help</h3>
+                        <p>Try not to worry, ResQNet is here to help you.</p>
+                    </div>
+                    <div class="step-card" data-step="2">
+                        <div class="step-number">2</div>
+                        <h3>Stay safe and secure</h3>
+                        <p>Move to a safe location if possible and follow safety instructions.</p>
+                    </div>
+                    <div class="step-card" data-step="3">
+                        <div class="step-number">3</div>
+                        <h3>Contact ResQNet</h3>
+                        <p>Our specialists will guide you through the next steps.</p>
+                    </div>
+                    <div class="step-card" data-step="4">
+                        <div class="step-number">4</div>
+                        <h3>Help is on the way</h3>
+                        <p>Emergency services will be dispatched to your location promptly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Card Section -->
+        <section class="map-card-section">
+            <div class="container">
+                <h2 class="section-title text-center">Emergency Response Map</h2>
+                <p class="section-description text-center">View real-time emergency situations and response units in your area</p>
+                
+                <div class="map-card">
+                    <div class="map-card-header">
+                        <h3><i class="fas fa-map-marked-alt"></i> Live Emergency Map</h3>
+                        <div class="map-controls">
+                            <button class="map-control-btn" id="zoom-in"><i class="fas fa-plus"></i></button>
+                            <button class="map-control-btn" id="zoom-out"><i class="fas fa-minus"></i></button>
+                            <button class="map-control-btn" id="recenter-map"><i class="fas fa-crosshairs"></i></button>
+                        </div>
+                    </div>
+                    <div id="home-map" class="home-map"></div>
+                    <div class="map-card-footer">
+                        <div class="map-legend">
+                            <div class="legend-item">
+                                <span class="legend-marker fire"></span>
+                                <span>Fire</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-marker medical"></span>
+                                <span>Medical</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-marker police"></span>
+                                <span>Police</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-marker disaster"></span>
+                                <span>Disaster</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="report-emergency-btn">Report Emergency</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Offer Section -->
+        <section class="what-we-offer" id="about">
+            <div class="container">
+                <h2>What We <span class="highlight">Offer</span></h2>
+                <p class="section-description">ResQNet is India's leading emergency response platform, helping thousands of people each year get the assistance they need quickly and efficiently.</p>
+                
+                <div class="offer-grid">
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Fast, Hassle-Free Service</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>24/7 Emergency Response</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Fully Trained Responders</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>GPS Location Tracking</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Real-time Status Updates</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <i class="fas fa-tools"></i>
+                            <h3>You're in Good Hands</h3>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <h4>4.9</h4>
+                                <p>Customer Rating</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4 id="response-count">5842</h4>
+                                <p>Rescues and counting</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>15<span>min</span></h4>
+                                <p>Average response time</p>
+                            </div>
+                        </div>
+                        
+                        <a href="#features" class="learn-more-btn">Learn More About Our Services</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Services Section -->
+        <section class="emergency-services" id="features">
+            <div class="container">
+                <h2>Emergency <span class="highlight">Services</span></h2>
+                <p class="section-description">Connecting you with the right emergency service quickly and efficiently</p>
+                
+                <div class="services-grid">
+                    <div class="service-card" data-service="police">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <img src="https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Police Response">
+                        <div class="service-content">
+                            <h3>Police Response</h3>
+                            <div class="divider"></div>
+                            <p>Immediate police assistance for emergencies, crimes in progress, and threats to public safety.</p>
+                            <a href="#report-emergency" class="service-btn">Request Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card" data-service="fire">
+                        <div class="service-icon">
+                            <i class="fas fa-fire-extinguisher"></i>
+                        </div>
+                        <img src="https://images.pexels.com/photos/260367/pexels-photo-260367.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fire & Rescue">
+                        <div class="service-content">
+                            <h3>Fire & Rescue</h3>
+                            <div class="divider"></div>
+                            <p>Emergency response to fires, hazardous situations, and rescue operations.</p>
+                            <a href="#report-emergency" class="service-btn">Request Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card" data-service="medical">
+                        <div class="service-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <img src="https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Medical Emergency">
+                        <div class="service-content">
+                            <h3>Medical Emergency</h3>
+                            <div class="divider"></div>
+                            <p>Rapid medical assistance for life-threatening conditions and injuries.</p>
+                            <a href="#report-emergency" class="service-btn">Request Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Emergency? We're Here to Help</h2>
+                    <p>Our 24/7 emergency service is just a click away. Fast, reliable assistance when you need it most.</p>
+                    <a href="#report-emergency" class="cta-button-white">Report Emergency</a>
+                </div>
+                
+                <div class="cta-emergency-card">
+                    <h3>24/7 ASSISTANCE HOTLINE</h3>
+                    <div class="emergency-number-display">
+                        <i class="fas fa-phone-alt"></i>
+                        <a href="tel:112" class="main-emergency-number" onclick="return confirmEmergencyCall('112')">112</a>
+                    </div>
+                    <div class="divider">INDIA EMERGENCY</div>
+                    <div class="emergency-numbers-grid">
+                        <div class="emergency-number-item">
+                            <span>Police</span>
+                            <a href="tel:100" onclick="return confirmEmergencyCall('100')">100</a>
+                        </div>
+                        <div class="emergency-number-item">
+                            <span>Fire</span>
+                            <a href="tel:101" onclick="return confirmEmergencyCall('101')">101</a>
+                        </div>
+                        <div class="emergency-number-item">
+                            <span>Ambulance</span>
+                            <a href="tel:108" onclick="return confirmEmergencyCall('108')">108</a>
+                        </div>
+                    </div>
+                    <p class="emergency-reminder">Remember: For life-threatening emergencies, always call emergency services directly.</p>
+                    <a href="#features" class="learn-more-btn-outline">Learn More About Our Services</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Report Form Section -->
+        <section class="emergency-report" id="report-emergency">
+            <div class="container">
+                <div class="report-form-container">
+                    <h2>Report an Emergency</h2>
+                    <p>Please provide accurate information for immediate assistance</p>
+                    
+                    <div class="alert-container" id="alert-container"></div>
+                    
+                    <form id="emergency-form">
+                        <div class="form-group">
+                            <label for="name">Full Name*</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="emergency-type">Emergency Type*</label>
+                            <select id="emergency-type" name="emergencyType" required>
+                                <option value="" disabled selected>Select emergency type</option>
+                                <option value="medical">Medical Emergency</option>
+                                <option value="police">Police Emergency</option>
+                                <option value="fire">Fire Emergency</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Pin Your Location on the Map*</label>
+                            <div id="map-container">
+                                <div id="map"></div>
+                                <div class="map-controls">
+                                    <button type="button" id="my-location-btn">
+                                        <i class="fas fa-location-arrow"></i> My Location
+                                    </button>
+                                </div>
+                                <div class="map-search">
+                                    <input type="text" id="map-search-input" placeholder="Search for a place...">
+                                    <button type="button" id="map-search-btn">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="pin-instruction">Click anywhere on the map to set the emergency location</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location">Location Coordinates*</label>
+                            <input type="text" id="location" name="location" readonly required>
+                            <p class="helper-text" id="location-helper">Click on the map to select a location</p>
+                        </div>
+                        
+                        <div class="form-group" id="address-container" style="display: none;">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">Description*</label>
+                            <textarea id="description" name="description" rows="4" placeholder="Describe the emergency situation" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-number">Contact Number*</label>
+                            <input type="tel" id="contact-number" name="contactNumber" required>
+                        </div>
+                        
+                        <div class="form-divider"></div>
+                        
+                        <div class="form-group">
+                            <label>Additional Evidence (Optional)</label>
+                            <div class="file-upload">
+                                <label for="file-upload-input" class="file-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i> Upload Evidence/Documents
+                                </label>
+                                <input type="file" id="file-upload-input" multiple accept=".pdf,image/*,.doc,.docx">
+                            </div>
+                            <div id="file-list" class="file-list"></div>
+                        </div>
+                        
+                        <button type="submit" id="submit-report" class="submit-button">
+                            <span class="button-text">Submit Emergency Report</span>
+                            <span class="button-loader" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Modal -->
+        <div class="modal" id="login-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Login to ResQNet</h2>
+                    <button class="close-modal" data-modal="login-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <button type="submit" class="submit-button">Login</button>
+                    </form>
+                    <p class="modal-footer-text">Don't have an account? <a href="#" id="switch-to-register">Register</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal" id="register-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create an Account</h2>
+                    <button class="close-modal" data-modal="register-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-name">Full Name</label>
+                            <input type="text" id="register-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <input type="password" id="register-confirm-password" name="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="submit-button">Register</button>
+                    </form>
+                    <p class="modal-footer-text">Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Assistant Modal -->
+        <div class="modal" id="ai-assistant-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>AI Emergency Assistant</h2>
+                    <button class="close-modal" data-modal="ai-assistant-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Hello! I'm your AI Emergency Assistant. How can I help you today?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chat-input" placeholder="Type your message...">
+                            <button id="send-message">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wearables Modal -->
+        <div class="modal" id="wearables-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Connected Devices</h2>
+                    <button class="close-modal" data-modal="wearables-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="wearables-container">
+                        <div class="wearable-device">
+                            <div class="device-info">
+                                <i class="fas fa-watch"></i>
+                                <div class="device-details">
+                                    <h3>Apple Watch</h3>
+                                    <p>Battery: 78%</p>
+                                </div>
+                            </div>
+                            <button class="device-connect-btn connected">Connected</button>
+                        </div>
+                        <div class="wearable-device">
+                            <div class="device-info">
+                                <i class="fas fa-watch"></i>
+                                <div class="device-details">
+                                    <h3>Fitbit Sense</h3>
+                                    <p>Battery: 45%</p>
+                                </div>
+                            </div>
+                            <button class="device-connect-btn">Connect</button>
+                        </div>
+                        <div class="add-device">
+                            <i class="fas fa-plus"></i>
+                            <span>Add New Device</span>
+                        </div>
+                        
+                        <div class="health-data">
+                            <h3>Health Data</h3>
+                            <div class="health-metrics">
+                                <div class="health-metric">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <p>Heart Rate: <strong id="heart-rate">72 BPM</strong></p>
+                                </div>
+                                <div class="health-metric">
+                                    <i class="fas fa-walking"></i>
+                                    <p>Steps Today: <strong id="steps-count">6,453</strong></p>
+                                </div>
+                            </div>
+                            <p class="last-updated">Last Updated: <span id="last-updated-time">12:30 PM</span></p>
+                        </div>
+                        
+                        <a href="#report-emergency" class="sos-button">
+                            <i class="fas fa-exclamation-triangle"></i> SOS Emergency
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2><span class="logo-resq">ResQ</span>Net</h2>
+                    <p>Your trusted emergency response platform</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-column">
+                        <h3>Quick Links</h3>
+                        <a href="#home">Home</a>
+                        <a href="#about">About Us</a>
+                        <a href="#features">Services</a>
+                        <a href="#report-emergency">Report Emergency</a>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>Emergency Numbers</h3>
+                        <a href="tel:112" onclick="return confirmEmergencyCall('112')">All Emergencies: 112</a>
+                        <a href="tel:100" onclick="return confirmEmergencyCall('100')">Police: 100</a>
+                        <a href="tel:101" onclick="return confirmEmergencyCall('101')">Fire: 101</a>
+                        <a href="tel:108" onclick="return confirmEmergencyCall('108')">Ambulance: 108</a>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>Contact Us</h3>
+                        <p><i class="fas fa-envelope"></i> info@resqnet.com</p>
+                        <p><i class="fas fa-phone"></i> +91 123 456 7890</p>
+                        <p><i class="fas fa-map-marker-alt"></i> New Delhi, India</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ResQNet. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <div class="toast-message" id="toast-message"></div>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <!-- Leaflet JS for maps -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
